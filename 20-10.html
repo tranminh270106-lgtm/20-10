@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lời chúc 20/10</title>
+<style>
+  body {
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    overflow: hidden;
+    font-family: 'Poppins', sans-serif;
+    transition: background 1.5s ease;
+  }
+
+  h2 {
+    position: absolute;
+    top: 30px;
+    font-size: 22px;
+    color: #444;
+    animation: pulse 2s infinite;
+    text-align: center;
+    width: 100%;
+  }
+
+  @keyframes pulse {
+    0% { transform: scale(1); color: #ff6699; }
+    50% { transform: scale(1.05); color: #ff3366; }
+    100% { transform: scale(1); color: #ff6699; }
+  }
+
+  #cat {
+    width: 160px;
+    transition: transform 0.6s, left 0.5s, top 0.5s;
+    cursor: pointer;
+    position: relative;
+    z-index: 2;
+  }
+
+  #message {
+    display: none;
+    position: absolute;
+    text-align: center;
+    z-index: 3;
+    animation: showUp 1.2s ease forwards;
+  }
+
+  @keyframes showUp {
+    from { transform: scale(0); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+
+  #message h1 {
+    font-size: 32px;
+    color: #ff3385;
+    margin-bottom: 10px;
+    text-shadow: 0 0 10px white;
+  }
+
+  #message p {
+    font-size: 20px;
+    color: #fff;
+    margin-bottom: 20px;
+    text-shadow: 0 0 8px #ff6699;
+  }
+
+  #message img {
+    width: 220px;
+    border-radius: 15px;
+    box-shadow: 0 0 25px pink;
+    margin-top: 15px;
+  }
+
+  .falling {
+    position: absolute;
+    top: -10px;
+    animation: fall linear infinite;
+    opacity: 0.9;
+    z-index: 1;
+  }
+
+  @keyframes fall {
+    0% { transform: translateY(0) rotate(0deg); }
+    100% { transform: translateY(100vh) rotate(720deg); }
+  }
+</style>
+</head>
+<body>
+  <h2 id="instruction">🐾 Bắt Cá với Bò hộ anhh</h2>
+  <img id="cat" src="https://i.postimg.cc/sXRFKwys/m-o.jpg" alt="Mèo dễ thương">
+  
+  <div id="message">
+    <h1>💖 Chúc Em 20/10! 💖</h1>
+    <p>Chúc bé mau ăn chóng lớn, học hành giỏi giang, ngày càng xinh đẹp, công việc thuận lợi và luôn nở nụ cười trên môi 😘💐✨</p>
+    <img src="https://i.postimg.cc/k4rRn6Pg/em.jpg" alt="Ảnh người được chúc">
+  </div>
+
+  <!-- nhạc nền khi hiện lời chúc -->
+  <audio id="music" src="https://files.catbox.moe/7rf04k.mp3" loop></audio>
+  <!-- âm thanh mèo kêu -->
+  <audio id="meow" src="https://files.catbox.moe/e3w63j.mp3"></audio>
+
+<script>
+  const cat = document.getElementById('cat');
+  const message = document.getElementById('message');
+  const body = document.body;
+  const music = document.getElementById('music');
+  const meow = document.getElementById('meow');
+  const instruction = document.getElementById('instruction');
+  let clicks = 0;
+
+  const instructions = [
+    "🐾 Ơ nó chạy, em bắt lại đi",
+    "Lại chạy mất rồi kìa",
+    "🎁 Chuẩn bị bất ngờ nè..."
+  ];
+
+  cat.addEventListener('click', () => {
+    clicks++;
+
+    if (clicks < 3) {
+      instruction.textContent = instructions[clicks - 1];
+      
+      // mèo chạy xa hơn mỗi lần
+      const moveX = (Math.random() * 800 - 400) * clicks;
+      const moveY = (Math.random() * 400 - 200) * clicks;
+      cat.style.transform = `translate(${moveX}px, ${moveY}px) scale(${1 + clicks * 0.2})`;
+    } 
+    else {
+      instruction.style.display = "none";
+      // mèo zoom to và kêu "meow"
+      meow.play();
+      cat.style.transition = "transform 1.5s ease";
+      cat.style.transform = "scale(15)";
+      
+      setTimeout(() => {
+        cat.style.display = "none";
+        body.style.background = "linear-gradient(135deg, #ffb6c1, #ff99cc)";
+        message.style.display = "block";
+        music.play();
+        setInterval(createFalling, 250); // hiệu ứng hoa & tim rơi liên tục
+      }, 1500);
+    }
+  });
+
+  function createFalling() {
+    const shapes = ['🌸','💖','🌷','💐','🌹','💞','🌺','🌸','🌼','🌻','⭐️','🌟','☀️','❤️‍🔥','💝'];
+    const el = document.createElement('div');
+    el.classList.add('falling');
+    el.textContent = shapes[Math.floor(Math.random() * shapes.length)];
+    el.style.left = Math.random() * 100 + "vw";
+    el.style.fontSize = Math.random() * 20 + 20 + "px";
+    el.style.animationDuration = (Math.random() * 4 + 5) + "s";
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 9000);
+  }
+</script>
+</body>
+</html>
